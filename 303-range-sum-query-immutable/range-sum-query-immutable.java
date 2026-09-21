@@ -1,6 +1,5 @@
 class NumArray {
-    private int[] prefix;
-
+    int[] prefix;
     public NumArray(int[] nums) {
         prefix = new int[nums.length];        
         prefix[0] = nums[0];
