@@ -1,23 +1,22 @@
+import java.util.HashMap;
+import java.util.Map;
+
 class Solution {
     public int totalFruit(int[] fruits) {
+        Map<Integer, Integer> fruitCount = new HashMap<>();
+        int left = 0;
         int maxFruits = 0;
-        int type1 = -1, type2 = -1;
-        int currentLength = 0;
-        int countB = 0;
-        for (int fruit : fruits) {
-            if (fruit == type1 || fruit == type2) {
-                currentLength++;
-            } else {
-                currentLength = countB + 1;
+        for (int right = 0; right < fruits.length; right++) {
+            fruitCount.put(fruits[right], fruitCount.getOrDefault(fruits[right], 0) + 1);
+            while (fruitCount.size() > 2) {
+                int leftFruit = fruits[left];
+                fruitCount.put(leftFruit, fruitCount.get(leftFruit) - 1);
+                if (fruitCount.get(leftFruit) == 0) {
+                    fruitCount.remove(leftFruit);
+                }
+                left++;
             }
-            if (fruit == type2) {
-                countB++;
-            } else {
-                countB = 1;
-                type1 = type2;
-                type2 = fruit;
-            }
-            maxFruits = Math.max(maxFruits, currentLength);
+            maxFruits = Math.max(maxFruits, right - left + 1);
         }
         return maxFruits;
     }
