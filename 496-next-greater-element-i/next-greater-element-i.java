@@ -1,20 +1,20 @@
 class Solution {
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
-        Map<Integer, Integer>  gmap = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
+        Stack<Integer> stack = new Stack<>();
 
-        Stack<Integer> st = new Stack<>();
-        for(int i= nums2.length-1;i>=0;i--){
-            int num = nums2[i];
-
-            while(st.isEmpty()==false && st.peek() <= num) st.pop();
-
-            gmap.put(num, st.size() == 0 ? -1 : st.peek());
-            st.push(num);
+        for (int num : nums2) {
+            while (!stack.isEmpty() && num > stack.peek()) {
+                map.put(stack.pop(), num);
+            }
+            stack.push(num);
         }
 
-        int n = nums1.length;
-        int[] res = new int[n];
-        for(int i=0;i<n;i++)res[i] = gmap.get(nums1[i]);
-        return res;
+        int[] ans = new int[nums1.length];
+        for (int i = 0; i < nums1.length; i++) {
+            ans[i] = map.getOrDefault(nums1[i], -1);
+        }
+
+        return ans;
     }
 }
